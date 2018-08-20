@@ -30,6 +30,7 @@
 #include <cmath>
 #include <defacc.h> // $NEMOINC/defacc.h
 
+#define SQR(x) x*x
 #define Pi 3.141592653589793
 
 double M_sc = 1.0, a_pl = 1.0; //mass and scale radius of a star cluster
