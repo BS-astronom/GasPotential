@@ -97,12 +97,15 @@ namespace {
       e_ff    = eff;
       t_sf    = tsf;
       
-      if(npar > 2) warning("%s: skipped parameters beyond 3",name());
+      if(npar > 2) warning("%s: skipped parameters beyond 2\n"
+			   " parameters : e_ff  = %f\n"
+		           "              t_sf  = %f\n",   
+			   e_ff, t_sf ,name());
       nemo_dprintf (1,
 		    "initializing %s\n"
 		    " parameters : e_ff  = %f\n"
 		    "              t_sf  = %f\n",
-		    name(), RmaxGasPot, e_ff, t_sf);
+		    name(), e_ff, t_sf);
     }
     template<typename scalar>
     void potacc(scalar const&Rq,
