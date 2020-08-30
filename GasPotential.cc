@@ -73,17 +73,20 @@ namespace {
 	    int          npar,
 	    const char  *file)
     {
-      if(npar < 2)
-	warning("%s: recognizing 2 parameters:\n"
+      if(npar < 4)
+	warning("%s: recognizing 4 parameters:\n"
 		" e_ff       star formation efficiency per free-fall time	[0.05]\n"
-		" t_sf	     duration of star formation phase [NB]			[1.0]\n"
+		" t_sf	     duration of star formation phase [NB]		[10.0]\n"
+		" a_pl	     Plummer scale radius [NB]     			[1.0]\n"
+		" M_sc	     Mass of stellar cluster [NB]			[1.0]\n"
 		"\n\n",name());
       if(file && file[0])
 	warning("%s: file \"%s\" ignored",name(),file);
       double
-//	gmaxr   = npar>0? pars[0] : 32.0,  // was changed from 100 to 32 (at 2016-03-14) because in our simulations we decided that we take into account the gas inside 10a radius only. Thus global star formation efficiency is calculated for the mass ratio inside r = 10a.
 	eff   = npar>0? pars[0] : 0.05,
-	tsf   = npar>1? pars[1] : 1.0;
+	tsf   = npar>1? pars[1] : 10.0,
+	apl   = npar>2? pars[2] : 1.0,
+	mpl   = npar>3? pars[3] : 1.0;
 	
       if (!((eff < 1.0))&&(eff > 0))
 	error("e_ff value is out of range: %f\n"
@@ -91,21 +94,25 @@ namespace {
       if (tsf <=0.0)
 	error("t_sf value is out of range: %f\n"
 	      "\t\t\t  correct range is : 0.0 < t_sf",tsf);
-    RmaxGasPot = 32.0; // Maximum radius for Plummer sphere with a = 1 is 32 in mkhalo
-//      }
-      
+    RmaxGasPot = 32.0; 
       e_ff    = eff;
       t_sf    = tsf;
+      M_sc = mpl;
+      a_pl = apl;
       
-      if(npar > 2) warning("%s: skipped parameters beyond 2\n"
+      if(npar > 4) warning("%s: skipped parameters beyond 4\n"
 			   " parameters : e_ff  = %f\n"
 		           "              t_sf  = %f\n",   
-			   e_ff, t_sf ,name());
+		           "              a_pl  = %f\n",   
+		           "              M_sc  = %f\n",   
+			   e_ff, t_sf, a_pl, M_sc, name());
       nemo_dprintf (1,
 		    "initializing %s\n"
 		    " parameters : e_ff  = %f\n"
 		    "              t_sf  = %f\n",
-		    name(), e_ff, t_sf);
+		    "              a_pl  = %f\n",   
+		    "              M_sc  = %f\n",   
+		    name(), e_ff, t_sf, a_pl, M_sc);
     }
     template<typename scalar>
     void potacc(scalar const&Rq,
