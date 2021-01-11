@@ -40,7 +40,7 @@ double G_const = 1.0, e_ff, t_sf;
       
 // rs() - calculates density of stars at given r (distance from the centre) for a Plummer sphere
 double rs(double const r){
-	double rhos = (3.0 * M_sc)/(4.0 * Pi * a_pl*a_pl*a_pl)*pow((1 + r*r/a_pl*a_pl),(-(5./2.)));
+	double rhos = (3.0 * M_sc)/(4.0 * Pi * a_pl*a_pl*a_pl)*pow((1 + r*r/(a_pl*a_pl)),(-(5./2.)));
 	return rhos;
     }
 
